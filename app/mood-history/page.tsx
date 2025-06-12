@@ -16,12 +16,12 @@ import {
   RefreshCw,
 } from "lucide-react"
 import { motion } from "framer-motion"
-import { Navigation } from "@/components/navigation"
+import Navigation from "@/components/navigation"
 import { MoodChart } from "@/components/mood-chart"
 import { MoodBarChart } from "@/components/mood-bar-chart"
 import { MoodPieChart } from "@/components/mood-pie-chart"
 import { MoodHeatmap } from "@/components/mood-heatmap"
-import { ProtectedRoute } from "@/components/ProtectedRoute"
+import ProtectedRoute from "@/components/ProtectedRoute"
 import { useAuth } from "@/hooks/useAuth"
 import { getMoodStatistics, getUserMoodEntries } from "@/lib/firestore"
 import { Alert, AlertDescription } from "@/components/ui/alert"
@@ -43,10 +43,19 @@ interface MoodEntryDisplay {
   userId: string
 }
 
+interface MoodStats {
+  totalEntries: number
+  averageMood: number
+  mostCommonMood: string
+  streakDays: number
+  last7DaysTrend: { date: string; moodValue: number }[]
+  moodCounts: Record<string, number>
+}
+
 export default function MoodHistoryPage() {
   const { user } = useAuth()
   const [moodEntries, setMoodEntries] = useState<MoodEntryDisplay[]>([])
-  const [moodStats, setMoodStats] = useState({
+  const [moodStats, setMoodStats] = useState<MoodStats>({
     totalEntries: 0,
     averageMood: 0,
     mostCommonMood: "Calm",
@@ -73,7 +82,7 @@ export default function MoodHistoryPage() {
       // Convert entries to display format
       const displayEntries: MoodEntryDisplay[] = entries.map((entry) => ({
         ...entry,
-        timestamp: entry.timestamp instanceof Date ? entry.timestamp : new Date(entry.timestamp),
+        timestamp: entry.timestamp instanceof Date ? entry.timestamp : entry.timestamp.toDate(),
       }))
 
       console.log("Processed mood entries:", displayEntries)

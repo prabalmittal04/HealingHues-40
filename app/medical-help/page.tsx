@@ -3,13 +3,13 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
+import { Stethoscope } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import {
   Heart,
-  Stethoscope,
   Clock,
   Home,
   AlertTriangle,
@@ -19,12 +19,10 @@ import {
   Brain,
   Activity,
   CheckCircle,
-  Hospital,
 } from "lucide-react"
-import { Hospital } from 'lucide-react';
 import { motion, AnimatePresence } from "framer-motion"
-import { Navigation } from "@/components/navigation"
-import { ProtectedRoute } from "@/components/ProtectedRoute"
+import Navigation from "@/components/navigation"
+import ProtectedRoute from "@/components/ProtectedRoute"
 import { useAuth } from "@/hooks/useAuth"
 import { saveMedicalQuery, getMedicalQueries, type MedicalQuery } from "@/lib/firestore"
 import { medicalAIService } from "@/lib/medical-ai-service"
@@ -63,7 +61,7 @@ export default function MedicalHelpPage() {
       // Check for emergency symptoms first
       if (medicalAIService.isEmergencySymptom(symptom)) {
         setError(
-          "⚠️ Your symptoms may require immediate medical attention. Please call emergency services (911) or go to the nearest emergency room immediately.",
+          "⚠️ Your symptoms may require immediate medical attention. Please call emergency services (112) or go to the nearest emergency room immediately.",
         )
         setIsLoading(false)
         return
@@ -160,7 +158,7 @@ export default function MedicalHelpPage() {
               <AlertDescription className="text-amber-700 dark:text-amber-300">
                 <strong>Medical Disclaimer:</strong> This AI assistant provides general health information only and is
                 not a substitute for professional medical advice. Always consult with a qualified healthcare provider
-                for proper diagnosis and treatment. In case of emergency, call 911 immediately.
+                for proper diagnosis and treatment. In case of emergency, call 112 immediately.
               </AlertDescription>
             </Alert>
 
@@ -305,7 +303,7 @@ export default function MedicalHelpPage() {
                           {/* Medical Treatments */}
                           <div>
                             <h3 className="font-semibold text-slate-700 dark:text-slate-200 mb-3 flex items-center">
-                              <Hospital className="w-4 h-4 mr-2 text-blue-500" />
+                              <Stethoscope className="w-4 h-4 mr-2 text-blue-500" />
                               Medical Treatments
                             </h3>
                             <div className="space-y-2">
@@ -461,7 +459,7 @@ export default function MedicalHelpPage() {
                         variant="outline"
                         className="border-red-300 text-red-700 hover:bg-red-100 dark:border-red-700 dark:text-red-300 dark:hover:bg-red-900/30"
                       >
-                        Emergency: 911
+                        Emergency: 112
                       </Button>
                     </div>
                   </CardContent>

@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 import type { User } from "firebase/auth"
 import { onAuthStateChange } from "@/lib/auth"
 import { getUserProfile, type UserProfile } from "@/lib/firestore"
+import { signOutUser } from "@/lib/auth"
 
 interface AuthContextType {
   user: User | null
@@ -11,6 +12,7 @@ interface AuthContextType {
   loading: boolean
   isEmailVerified: boolean
   error: string | null
+  signOut: () => Promise<{ error: string | null }>
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -19,6 +21,7 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   isEmailVerified: false,
   error: null,
+  signOut: async () => ({ error: "signOut function not implemented" }), // Placeholder
 })
 
 export const useAuth = () => {
@@ -81,7 +84,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const isEmailVerified = user?.emailVerified || false
 
   return (
-    <AuthContext.Provider value={{ user, userProfile, loading, isEmailVerified, error }}>
+    <AuthContext.Provider value={{ user, userProfile, loading, isEmailVerified, error, signOut: signOutUser }}>
       {children}
     </AuthContext.Provider>
   )

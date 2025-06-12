@@ -12,7 +12,7 @@ interface ProtectedRouteProps {
   requireEmailVerification?: boolean
 }
 
-export const ProtectedRoute = ({ children, requireEmailVerification = false }: ProtectedRouteProps) => {
+export default function ProtectedRoute({ children, requireEmailVerification = false }: ProtectedRouteProps) {
   const { user, loading, isEmailVerified } = useAuth()
   const router = useRouter()
 

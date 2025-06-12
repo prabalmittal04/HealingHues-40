@@ -7,7 +7,7 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Settings, Moon, Sun, Bell, Shield, LogOut, Palette } from "lucide-react"
 import { motion } from "framer-motion"
-import { Navigation } from "@/components/navigation"
+import Navigation from "@/components/navigation"
 import { useTheme } from "next-themes"
 
 export default function SettingsPage() {

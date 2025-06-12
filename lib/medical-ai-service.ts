@@ -1,4 +1,3 @@
-// Medical AI Service for symptom analysis and health recommendations
 export class MedicalAIService {
   private emergencyKeywords = [
     "chest pain",

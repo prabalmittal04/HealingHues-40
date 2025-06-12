@@ -1,5 +1,3 @@
-// components/MessageInput.tsx
-
 import { analyzeSentiment, generateEmpathetic } from "@/lib/sentiment-analysis"
 import { db } from "@/lib/firebase" // assuming Firebase config is here
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"

@@ -1,5 +1,3 @@
-// Enhanced Sentiment Analysis and Empathetic Response for HueBot
-
 interface SentimentResult {
   mood: string
   moodValue: number

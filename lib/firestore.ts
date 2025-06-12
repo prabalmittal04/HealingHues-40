@@ -17,6 +17,7 @@ import {
 } from "firebase/firestore"
 import type { User } from "firebase/auth"
 import { db } from "./firebaseConfig"
+import type { User } from "firebase/auth"
 
 // User Profile Types
 export interface UserProfile {
@@ -108,6 +109,20 @@ export interface MedicineOrder {
   paymentMethod?: string
   trackingNumber?: string
   estimatedDelivery?: Date
+}
+
+// Medicine Recommendation Types
+export interface MedicineRecommendation {
+  id: string;
+  name: string;
+  price: number;
+  manufacturer: string;
+  category: string;
+  rating: number;
+  image: string;
+  description: string;
+  inStock: boolean;
+  popularity: number;
 }
 
 // Helper function to convert Firestore timestamp to Date
@@ -446,7 +461,8 @@ export const saveChatMessage = async (userId: string, message: ChatMessage) => {
       throw new Error("Invalid chat message data")
     }
 
-    const chatMessage = {
+    // Build initial object with all possible fields
+    const chatMessage: Record<string, any> = {
       text: String(message.text),
       sender: String(message.sender),
       timestamp: serverTimestamp(),
@@ -457,6 +473,13 @@ export const saveChatMessage = async (userId: string, message: ChatMessage) => {
       activity: message.activity ? String(message.activity) : undefined,
     }
 
+    // Remove keys with undefined values
+    Object.keys(chatMessage).forEach(key => {
+      if (chatMessage[key] === undefined) {
+        delete chatMessage[key]
+      }
+    })
+
     const docRef = await addDoc(collection(db, "chatMessages"), chatMessage)
     console.log("Chat message saved successfully with ID:", docRef.id)
 
@@ -466,6 +489,7 @@ export const saveChatMessage = async (userId: string, message: ChatMessage) => {
     throw error
   }
 }
+
 
 export const getChatMessages = (userId: string, callback: (messages: ChatMessage[]) => void) => {
   try {
@@ -712,25 +736,16 @@ export const saveMedicineOrder = async (
   orderData: Omit<MedicineOrder, "id" | "timestamp" | "userId">,
 ) => {
   try {
-    if (!userId || !orderData.items || orderData.items.length === 0) {
-      throw new Error("Invalid medicine order data")
-    }
-
-    const medicineOrder = {
-      items: orderData.items,
-      prescriptionUrl: orderData.prescriptionUrl ? String(orderData.prescriptionUrl) : undefined,
-      totalAmount: Number(orderData.totalAmount),
-      status: String(orderData.status),
-      deliveryAddress: orderData.deliveryAddress ? String(orderData.deliveryAddress) : undefined,
-      paymentMethod: orderData.paymentMethod ? String(orderData.paymentMethod) : undefined,
-      trackingNumber: orderData.trackingNumber ? String(orderData.trackingNumber) : undefined,
-      estimatedDelivery: orderData.estimatedDelivery || undefined,
-      timestamp: serverTimestamp(),
-      userId: String(userId),
-    }
-
-    const docRef = await addDoc(collection(db, "medicineOrders"), medicineOrder)
-    return { id: docRef.id, ...medicineOrder }
+    if (!userId) throw new Error("No userId provided for saveMedicineOrder")
+    // Remove undefined fields
+    const cleanOrderData: Record<string, any> = { ...orderData, userId, timestamp: serverTimestamp() }
+    Object.keys(cleanOrderData).forEach(key => {
+      if (cleanOrderData[key] === undefined) {
+        delete cleanOrderData[key]
+      }
+    })
+    const docRef = await addDoc(collection(db, "medicineOrders"), cleanOrderData)
+    return { id: docRef.id, ...cleanOrderData }
   } catch (error) {
     console.error("Error saving medicine order:", error)
     throw error
@@ -809,3 +824,30 @@ export const deleteMedicineOrder = async (orderId: string) => {
     throw error
   }
 }
+
+// Medicine Recommendation Functions
+export const getMedicineRecommendations = async (searchTerm: string = ""): Promise<MedicineRecommendation[]> => {
+  try {
+    const q = searchTerm 
+      ? query(collection(db, 'medicines'), orderBy('popularity', 'desc'))
+      : query(collection(db, 'medicines'), orderBy('popularity', 'desc'));
+    
+    const querySnapshot = await getDocs(q);
+    const medicines: MedicineRecommendation[] = [];
+    
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      if (!searchTerm || data.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+        medicines.push({
+          id: doc.id,
+          ...data,
+        } as MedicineRecommendation);
+      }
+    });
+    
+    return medicines.slice(0, 10); // Return top 10 recommendations
+  } catch (error) {
+    console.error('Error getting medicine recommendations:', error);
+    return [];
+  }
+};

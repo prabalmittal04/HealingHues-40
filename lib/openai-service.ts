@@ -1,4 +1,3 @@
-// OpenAI integration for HueBot
 import type { ChatCompletionRequestMessage } from "openai"
 
 interface OpenAIResponse {

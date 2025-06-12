@@ -1,4 +1,3 @@
-// LLM Service for HueBot using Hugging Face Inference API (free tier)
 interface LLMResponse {
   text: string
   mood?: string

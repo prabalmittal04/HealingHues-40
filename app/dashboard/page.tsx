@@ -16,9 +16,9 @@ import { Label } from "@/components/ui/label"
 import { Heart, BarChart3, Users, MessageCircle, Plus, Sparkles, AlertCircle, TrendingUp } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { Navigation } from "@/components/navigation"
+import Navigation from "@/components/navigation"
+import ProtectedRoute from "@/components/ProtectedRoute"
 import { HueBotChat } from "@/components/hue-bot-chat"
-import { ProtectedRoute } from "@/components/ProtectedRoute"
 import { useAuth } from "@/hooks/useAuth"
 import {
   saveMoodEntry,
@@ -40,6 +40,15 @@ const moods = [
   { emoji: "🥰", label: "Excellent", value: 5, color: "bg-pink-100 text-pink-800 hover:bg-pink-200" },
 ]
 
+type MoodStats = {
+  totalEntries: number;
+  averageMood: number;
+  mostCommonMood: string;
+  streakDays: number;
+  last7DaysTrend: { date: string; moodValue: number }[];
+  moodCounts: Record<string, number>;
+};
+
 export default function DashboardPage() {
   const { user, userProfile } = useAuth()
   const [selectedMood, setSelectedMood] = useState<number | null>(null)
@@ -49,7 +58,7 @@ export default function DashboardPage() {
   const [showGratitudeModal, setShowGratitudeModal] = useState(false)
   const [gratitudeEntries, setGratitudeEntries] = useState<GratitudeEntry[]>([])
   const [moodEntries, setMoodEntries] = useState<MoodEntry[]>([])
-  const [moodStats, setMoodStats] = useState({
+  const [moodStats, setMoodStats] = useState<MoodStats>({
     totalEntries: 0,
     averageMood: 0,
     mostCommonMood: "No data yet",
@@ -165,7 +174,7 @@ export default function DashboardPage() {
         <Navigation />
 
         <main className="max-w-7xl mx-auto p-4 md:p-6 pt-20 md:pt-24">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <div>
             {/* Error Alert */}
             {error && (
               <Alert className="mb-6 border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-900/20">
@@ -237,9 +246,7 @@ export default function DashboardPage() {
                     {selectedMood && (
                       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
                         <div>
-                          <Label htmlFor="mood-note" className="text-slate-700 dark:text-slate-200">
-                            Want to reflect more? (Optional)
-                          </Label>
+                          <Label htmlFor="mood-note" className="text-slate-700 dark:text-slate-200">Want to reflect more? (Optional)</Label>
                           <Textarea
                             id="mood-note"
                             placeholder="What's contributing to this feeling?"
@@ -270,7 +277,7 @@ export default function DashboardPage() {
                     <CardDescription>Your empathetic AI companion is here to listen and support you</CardDescription>
                   </CardHeader>
                   <CardContent className="p-4 md:p-6 pt-0">
-                    <div className="h-80 md:h-96">
+                    <div className="h-[32rem] md:h-[40rem]">
                       <HueBotChat />
                     </div>
                   </CardContent>
@@ -435,7 +442,7 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </main>
       </div>
     </ProtectedRoute>

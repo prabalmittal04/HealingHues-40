@@ -1,5 +1,3 @@
-// Medical API Service for symptom analysis and health recommendations
-
 interface MedicalAnalysisResult {
   possibleCauses: string[]
   homeRemedies: string[]

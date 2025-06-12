@@ -126,7 +126,7 @@ export function HueBotChat() {
 
       // Generate bot response using enhanced HueBot service
       console.log("Generating bot response...")
-      const hueBotResponse = await hueBotService.generateResponse(userMessageText, chatHistory)
+      const hueBotResponse = await hueBotService(userMessageText, chatHistory)
       console.log("HueBot response received:", hueBotResponse)
 
       // Create bot message with HueBot response
@@ -214,7 +214,7 @@ export function HueBotChat() {
       )}
 
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-80">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[calc(100vh-300px)] min-h-[550px]">
         {messages.length === 0 && <WelcomeMessage />}
 
         <AnimatePresence>

@@ -18,7 +18,7 @@ const navItems = [
   { href: "/settings", label: "Settings", icon: Settings },
 ]
 
-export function Navigation() {
+function Navigation() {
   const pathname = usePathname()
   const { user, signOut } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
@@ -166,3 +166,5 @@ export function Navigation() {
     </nav>
   )
 }
+
+export default Navigation;
