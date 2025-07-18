@@ -58,7 +58,9 @@ Tone: compassionate, gentle, and positive. Respond in 1-2 sentences.
     };
 
     // HARDCODED API KEY FOR TESTING ONLY — REMOVE BEFORE DEPLOYMENT
-    const huggingFaceApiKey = "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";
+    // const huggingFaceApiKey = "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";
+    // Use environment variable instead of hardcoding secrets
+    const huggingFaceApiKey = process.env.HUGGINGFACE_API_KEY || "";
     headers["Authorization"] = `Bearer ${huggingFaceApiKey}`;
 
     const response = await axios.post(
