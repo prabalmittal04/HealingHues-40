@@ -1,2 +1,25 @@
+# Node and build
 node_modules/
-.env
+.next/
+dist/
+build/
+.cache/
+
+# Firebase + emulators
+.firebase/
+.firebaserc
+firebase-debug.log
+
+# Vercel
+.vercel/
+
+# VSCode
+.vscode/
+
+# Env & system
+.env*
+.DS_Store
+
+# Huggingface & models
+.cache/huggingface/
+.cache/firebase/
