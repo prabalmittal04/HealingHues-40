@@ -280,7 +280,7 @@ export default function DashboardPage() {
                   <CardContent className="p-4 md:p-6 pt-0">
                     <div className="h-[32rem] md:h-[40rem] relative">
                       <iframe
-                         src="https://cdn.botpress.cloud/webchat/v3.0/shareable.html?configUrl=https://files.bpcontent.cloud/2025/06/30/11/20250630112655-FUELTH1O.json"
+                         src="https://cdn.botpress.cloud/webchat/v3.2/shareable.html?configUrl=https://files.bpcontent.cloud/2025/06/30/11/20250630112655-FUELTH1O.json"
                          className="absolute top-0 left-0 w-full h-full rounded-xl border-none shadow-lg"
                          allow="camera; microphone"
                       />
