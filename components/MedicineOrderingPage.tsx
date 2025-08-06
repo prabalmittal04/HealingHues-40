@@ -88,7 +88,7 @@ const MEDICINE_DATABASE: MedicineRecommendation[] = [
   },
   {
     id: "4",
-    name: "Amoxicillin 250mg",
+    name: "Amoxicillin 250mg(Prescription required)",
     price: 45,
     manufacturer: "Abbott",
     category: "Antibiotic",
@@ -181,8 +181,8 @@ export default function MedicineOrderingPage() {
   })
   const [paymentMethod, setPaymentMethod] = useState("card")
   const [orderId, setOrderId] = useState<string | null>(null)
+  const [showPrescriptionPopup, setShowPrescriptionPopup] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
-
   // Load recommendations and orders
   useEffect(() => {
     if (user === null) {
@@ -366,6 +366,33 @@ export default function MedicineOrderingPage() {
   const nextStep = () => {
     if (currentStep < 5) {
       setCurrentStep(currentStep + 1)
+    }
+  }
+
+  const handleNextButtonClick = () => {
+    // Check if prescription is required but not provided
+    if (currentStep === 2 && selectedMethod === "prescription" && !prescriptionFile) {
+      setShowPrescriptionPopup(true)
+      return
+    }
+    
+    // Check if any selected medicines require prescription
+    const requiresPrescription = selectedMedicines.some(medicine => 
+      medicine.name.toLowerCase().includes("prescription required")
+    )
+    
+    if (requiresPrescription && !prescriptionFile) {
+      setShowPrescriptionPopup(true)
+      return
+    }
+    
+    // If validation passes, proceed to next step
+    if (canProceedToNextStep()) {
+      if (currentStep === 4) {
+        handleSubmitOrder()
+      } else {
+        nextStep()
+      }
     }
   }
 
@@ -1161,8 +1188,8 @@ export default function MedicineOrderingPage() {
             </motion.button>
 
             <motion.button
-              onClick={currentStep === 4 ? handleSubmitOrder : nextStep}
-              disabled={!canProceedToNextStep() || isSubmitting}
+              onClick={handleNextButtonClick}
+              disabled={isSubmitting}
               className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
                 canProceedToNextStep() && !isSubmitting
                   ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 shadow-lg"
@@ -1212,6 +1239,96 @@ export default function MedicineOrderingPage() {
                   <X className="w-4 h-4" />
                 </button>
               </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Prescription Required Popup */}
+        <AnimatePresence>
+          {showPrescriptionPopup && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              onClick={() => setShowPrescriptionPopup(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-md w-full shadow-2xl"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="text-center">
+                  <div className="mx-auto flex items-center justify-center w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full mb-4">
+                    <AlertCircle className="w-8 h-8 text-red-600 dark:text-red-400" />
+                  </div>
+                  
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                    Prescription Required
+                  </h3>
+                  
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">
+                    Some medicines in your cart require a valid prescription to proceed.
+                  </p>
+                  
+                  <div className="space-y-3">
+                    {/* Option 1: Upload Prescription */}
+                    <button
+                      onClick={() => {
+                        setShowPrescriptionPopup(false)
+                        setCurrentStep(2) // Go back to prescription upload step
+                        setSelectedMethod("prescription")
+                      }}
+                      className="w-full px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-semibold hover:from-green-600 hover:to-emerald-600 transition-colors flex items-center justify-center space-x-2"
+                    >
+                      <Upload className="w-4 h-4" />
+                      <span>Upload Prescription</span>
+                    </button>
+                    
+                    {/* Option 2: Remove Prescription Medicines */}
+                    <button
+                      onClick={() => {
+                        // Remove medicines that require prescription
+                        const filteredMedicines = selectedMedicines.filter(medicine => 
+                          !medicine.name.toLowerCase().includes("prescription required")
+                        )
+                        setSelectedMedicines(filteredMedicines)
+                        setShowPrescriptionPopup(false)
+                        
+                        // Show success message
+                        setSuccess("Prescription medicines removed from your cart. You can now proceed.")
+                      }}
+                      className="w-full px-4 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-semibold transition-colors flex items-center justify-center space-x-2"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      <span>Remove Prescription Medicines</span>
+                    </button>
+                    
+                    {/* Option 3: Get Help with Prescription */}
+                    <button
+                      onClick={() => {
+                        setShowPrescriptionPopup(false)
+                        // Navigate to medical help page
+                        window.open('/medical-help', '_blank')
+                      }}
+                      className="w-full px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-semibold transition-colors flex items-center justify-center space-x-2"
+                    >
+                      <Syringe className="w-4 h-4" />
+                      <span>Get Medical Consultation</span>
+                    </button>
+                    
+                    {/* Option 4: Cancel */}
+                    <button
+                      onClick={() => setShowPrescriptionPopup(false)}
+                      className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-xl font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
