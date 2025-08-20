@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Heart, Menu, Home, BarChart3, Users, Stethoscope, Settings, Pill, Sparkles } from "lucide-react"
+import { Heart, Menu, Home, BarChart3, Users, Stethoscope, Settings, Pill, Sparkles, RefreshCw } from "lucide-react"
 import { useAuth } from "@/hooks/useAuth"
 import { motion } from "framer-motion"
 
@@ -13,6 +13,7 @@ const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
   { href: "/mood-history", label: "Mood History", icon: BarChart3 },
   { href: "/wellness", label: "Wellness Center", icon: Sparkles },
+  { href: "/huecycle", label: "HueCycle", icon: RefreshCw },
   { href: "/medical-help", label: "Medical Help", icon: Stethoscope },
   { href: "/community", label: "Community", icon: Users },
   { href: "/medicine-ordering", label: "Medicine", icon: Pill },
@@ -34,24 +35,26 @@ function Navigation() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/dashboard" className="flex items-center space-x-2">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-lg flex items-center justify-center"
-            >
-              <Heart className="w-5 h-5 text-white" />
-            </motion.div>
-            <span className="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-              HealingHues
-            </span>
-          </Link>
+      <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center h-16">
+          {/* Logo - Extreme Left */}
+          <div className="flex-shrink-0 mr-8">
+            <Link href="/dashboard" className="flex items-center space-x-2">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-lg flex items-center justify-center"
+              >
+                <Heart className="w-5 h-5 text-white" />
+              </motion.div>
+              <span className="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                HealingHues
+              </span>
+            </Link>
+          </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          {/* Desktop Navigation - Center */}
+          <div className="hidden md:flex items-center space-x-1 flex-1 justify-center">
             {navItems.map((item) => {
               const Icon = item.icon
               const isActive = pathname === item.href
@@ -74,8 +77,8 @@ function Navigation() {
             })}
           </div>
 
-          {/* User Menu */}
-          <div className="hidden md:flex items-center space-x-4">
+          {/* User Menu - Extreme Right */}
+          <div className="hidden md:flex items-center space-x-4 flex-shrink-0 ml-auto">
             {user && (
               <div className="flex items-center space-x-3">
                 <div className="text-right">

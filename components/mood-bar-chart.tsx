@@ -1,14 +1,6 @@
 "use client"
 
-import {
-  Bar,
-  BarChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-  Cell,
-} from "recharts"
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Cell } from "recharts"
 
 interface MoodBarChartProps {
   moodCounts?: Record<string, number>
@@ -44,6 +36,14 @@ const gradientDefs = (
       <stop offset="0%" stopColor="#ddd6fe" />
       <stop offset="100%" stopColor="#c4b5fd" />
     </linearGradient>
+    <linearGradient id="excellent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stopColor="#fce7f3" />
+      <stop offset="100%" stopColor="#f472b6" />
+    </linearGradient>
+    <linearGradient id="good" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stopColor="#bbf7d0" />
+      <stop offset="100%" stopColor="#34d399" />
+    </linearGradient>
   </defs>
 )
 
@@ -56,6 +56,8 @@ const getMoodGradientId = (mood: string): string => {
     Anxious: "anxious",
     Angry: "angry",
     Excited: "excited",
+    Excellent: "excellent",
+    Good: "good",
   }
   return ids[mood] || "neutral"
 }
@@ -74,15 +76,14 @@ export function MoodBarChart({ moodCounts }: MoodBarChartProps) {
           { mood: "Neutral", count: 8, gradient: "url(#neutral)" },
           { mood: "Anxious", count: 5, gradient: "url(#anxious)" },
           { mood: "Sad", count: 2, gradient: "url(#sad)" },
+          { mood: "Excellent", count: 15, gradient: "url(#excellent)" },
+          { mood: "Good", count: 20, gradient: "url(#good)" },
         ]
 
   return (
     <div className="h-72 w-full font-sans">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          data={data}
-          margin={{ top: 20, right: 30, left: 10, bottom: 20 }}
-        >
+        <BarChart data={data} margin={{ top: 20, right: 30, left: 10, bottom: 20 }}>
           {gradientDefs}
           <XAxis
             dataKey="mood"
@@ -103,24 +104,15 @@ export function MoodBarChart({ moodCounts }: MoodBarChartProps) {
               if (active && payload && payload.length) {
                 return (
                   <div className="bg-white dark:bg-slate-800 p-3 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 min-w-[120px]">
-                    <p className="font-semibold text-slate-700 dark:text-slate-100 mb-1">
-                      {label}
-                    </p>
-                    <p className="text-sm text-slate-500 dark:text-slate-300">
-                      Count: {payload[0].value}
-                    </p>
+                    <p className="font-semibold text-slate-700 dark:text-slate-100 mb-1">{label}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-300">Count: {payload[0].value}</p>
                   </div>
                 )
               }
               return null
             }}
           />
-          <Bar
-            dataKey="count"
-            animationDuration={1000}
-            animationEasing="ease-out"
-            barSize={40}
-          >
+          <Bar dataKey="count" animationDuration={1000} animationEasing="ease-out" barSize={40} radius={[8, 8, 0, 0]}>
             {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}

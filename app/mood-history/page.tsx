@@ -133,7 +133,7 @@ export default function MoodHistoryPage() {
                 <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
                 <AlertDescription className="text-red-700 dark:text-red-300">
                   {error}
-                  <Button onClick={handleRefresh} variant="outline" size="sm" className="ml-2">
+                  <Button onClick={handleRefresh} variant="outline" size="sm" className="ml-2 bg-transparent">
                     <RefreshCw className="w-3 h-3 mr-1" />
                     Retry
                   </Button>
@@ -155,11 +155,16 @@ export default function MoodHistoryPage() {
                     </CardDescription>
                   </div>
                   <div className="flex space-x-2">
-                    <Button onClick={handleRefresh} variant="outline" className="rounded-xl" disabled={isLoading}>
+                    <Button
+                      onClick={handleRefresh}
+                      variant="outline"
+                      className="rounded-xl bg-transparent"
+                      disabled={isLoading}
+                    >
                       <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? "animate-spin" : ""}`} />
                       Refresh
                     </Button>
-                    <Button variant="outline" className="rounded-xl">
+                    <Button variant="outline" className="rounded-xl bg-transparent">
                       <Download className="w-4 h-4 mr-2" />
                       Export Data
                     </Button>
@@ -170,41 +175,41 @@ export default function MoodHistoryPage() {
 
             {/* Stats Overview */}
             <div className="grid md:grid-cols-4 gap-6 mb-8">
-              <Card className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/20 dark:border-slate-700/50 rounded-2xl shadow-lg">
+              <Card className="bg-gradient-to-br from-emerald-100 to-green-200 dark:from-emerald-900/30 dark:to-green-800/30 backdrop-blur-sm border border-emerald-200/50 dark:border-emerald-700/50 rounded-2xl shadow-lg">
                 <CardContent className="p-6 text-center">
-                  <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
+                  <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">
                     {isLoading ? "..." : moodStats.averageMood.toFixed(1)}
                   </div>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Average Mood</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">This month</p>
+                  <p className="text-sm text-emerald-700 dark:text-emerald-300">Average Mood</p>
+                  <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">This month</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/20 dark:border-slate-700/50 rounded-2xl shadow-lg">
+              <Card className="bg-gradient-to-br from-blue-100 to-cyan-200 dark:from-blue-900/30 dark:to-cyan-800/30 backdrop-blur-sm border border-blue-200/50 dark:border-blue-700/50 rounded-2xl shadow-lg">
                 <CardContent className="p-6 text-center">
                   <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                     {isLoading ? "..." : moodStats.totalEntries}
                   </div>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Total Entries</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">All time</p>
+                  <p className="text-sm text-blue-700 dark:text-blue-300">Total Entries</p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">All time</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/20 dark:border-slate-700/50 rounded-2xl shadow-lg">
+              <Card className="bg-gradient-to-br from-purple-100 to-indigo-200 dark:from-purple-900/30 dark:to-indigo-800/30 backdrop-blur-sm border border-purple-200/50 dark:border-purple-700/50 rounded-2xl shadow-lg">
                 <CardContent className="p-6 text-center">
                   <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">
                     {isLoading ? "..." : moodStats.streakDays}
                   </div>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Day Streak</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">Keep it up!</p>
+                  <p className="text-sm text-purple-700 dark:text-purple-300">Day Streak</p>
+                  <p className="text-xs text-purple-600 dark:text-purple-400 mt-1">Keep it up!</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/20 dark:border-slate-700/50 rounded-2xl shadow-lg">
+              <Card className="bg-gradient-to-br from-amber-100 to-yellow-200 dark:from-amber-900/30 dark:to-yellow-800/30 backdrop-blur-sm border border-amber-200/50 dark:border-amber-700/50 rounded-2xl shadow-lg">
                 <CardContent className="p-6 text-center">
                   <div className="text-2xl mb-2">😌</div>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Most Common</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">
+                  <p className="text-sm text-amber-700 dark:text-amber-300">Most Common</p>
+                  <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
                     {isLoading ? "..." : moodStats.mostCommonMood}
                   </p>
                 </CardContent>
@@ -217,7 +222,7 @@ export default function MoodHistoryPage() {
               <Card className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/20 dark:border-slate-700/50 rounded-2xl shadow-lg">
                 <CardHeader>
                   <CardTitle className="text-lg text-slate-700 dark:text-slate-200 flex items-center">
-                    <Activity className="w-5 h-5 mr-2 text-green-500" />
+                    <Activity className="w-5 h-5 mr-2 text-emerald-500" />
                     Mood Trends (7 Days)
                   </CardTitle>
                   <CardDescription>Your emotional patterns over time</CardDescription>
@@ -225,7 +230,7 @@ export default function MoodHistoryPage() {
                 <CardContent>
                   {isLoading ? (
                     <div className="h-64 flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
                     </div>
                   ) : (
                     <MoodChart trendData={moodStats.last7DaysTrend} />
@@ -322,7 +327,7 @@ export default function MoodHistoryPage() {
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.4, delay: index * 0.1 }}
-                          className="flex items-start space-x-4 p-4 rounded-xl bg-white/50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all duration-200"
+                          className="flex items-start space-x-4 p-4 rounded-xl bg-gradient-to-r from-white/60 to-slate-50/60 dark:from-slate-800/60 dark:to-slate-700/60 border border-slate-200/50 dark:border-slate-700/50 hover:shadow-md transition-all duration-200"
                         >
                           <div className="text-3xl">
                             {entry.mood === 1 && "😞"}
@@ -335,9 +340,9 @@ export default function MoodHistoryPage() {
                           <div className="flex-1">
                             <div className="flex items-center space-x-3 mb-2">
                               <Badge
-                                className={
+                                className={`${
                                   moodColors[entry.moodLabel as keyof typeof moodColors] || "bg-gray-100 text-gray-800"
-                                }
+                                } border-0`}
                               >
                                 {entry.moodLabel}
                               </Badge>
@@ -351,7 +356,7 @@ export default function MoodHistoryPage() {
                                     <div
                                       key={i}
                                       className={`w-2 h-2 rounded-full ${
-                                        i < entry.mood ? "bg-green-400" : "bg-gray-200 dark:bg-gray-600"
+                                        i < entry.mood ? "bg-emerald-400" : "bg-gray-200 dark:bg-gray-600"
                                       }`}
                                     />
                                   ))}
