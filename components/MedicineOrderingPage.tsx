@@ -17,6 +17,7 @@ import {
   Truck,
   ReceiptText,
   ShoppingCartIcon,
+  Filter,
 } from "lucide-react"
 import { useAuth } from "../hooks/useAuth"
 import { useRouter } from "next/navigation"
@@ -34,7 +35,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import FilterIcon from "./Filter"
 
 interface Medicine {
   id: string
@@ -248,12 +248,10 @@ export default function MedicineOrderingPage() {
     }
   }, [user, router])
 
-  if (user === undefined) {
-    return null // or a loading spinner
-  }
-
-  // Load recommendations and orders
   useEffect(() => {
+    if (user === undefined) {
+      return
+    }
     loadRecommendations()
     if (user?.uid) {
       const unsubscribe = getMedicineOrders(user.uid, (userOrders) => {
@@ -261,7 +259,7 @@ export default function MedicineOrderingPage() {
       })
       return () => unsubscribe()
     }
-  }, [user?.uid])
+  }, [user])
 
   // Load medicine recommendations
   const loadRecommendations = async (searchTerm = "") => {
@@ -586,7 +584,7 @@ export default function MedicineOrderingPage() {
                   />
                 </div>
                 <div className="flex items-center space-x-2">
-                  <FilterIcon className="w-5 h-5 text-slate-500" />
+                  <Filter className="w-5 h-5 text-slate-500" />
                   <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
                     <TabsList className="bg-white/50 dark:bg-slate-800/50">
                       {categories.map((category) => (
