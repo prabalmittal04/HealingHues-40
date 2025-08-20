@@ -121,15 +121,16 @@ export default function HueCycleHealthLibrary() {
   const [showPremiumOnly, setShowPremiumOnly] = useState(false)
 
   const filteredResources = healthResources.filter((resource) => {
-    const matchesSearch = resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         resource.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         resource.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+    const matchesSearch =
+      resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      resource.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      resource.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
     const matchesCategory = selectedCategory === "All" || resource.category === selectedCategory
     const matchesPremium = !showPremiumOnly || resource.premium
     return matchesSearch && matchesCategory && matchesPremium
   })
 
-  const featuredResources = healthResources.filter(resource => resource.featured)
+  const featuredResources = healthResources.filter((resource) => resource.featured)
 
   const getTypeIcon = (type: string) => {
     const icons = {
@@ -201,9 +202,10 @@ export default function HueCycleHealthLibrary() {
               <Button
                 variant={showPremiumOnly ? "default" : "outline"}
                 onClick={() => setShowPremiumOnly(!showPremiumOnly)}
-                className={showPremiumOnly 
-                  ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white" 
-                  : "bg-white/50 dark:bg-slate-800/50 border-pink-300 dark:border-pink-600 text-pink-700 dark:text-pink-200"
+                className={
+                  showPremiumOnly
+                    ? "bg-gradient-to-r from-pink-500 to-purple-600 text-white"
+                    : "bg-white/50 dark:bg-slate-800/50 border-pink-300 dark:border-pink-600 text-pink-700 dark:text-pink-200"
                 }
               >
                 <Star className="w-4 h-4 mr-2" />
@@ -229,4 +231,36 @@ export default function HueCycleHealthLibrary() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-pink-200 dark:border-pink-700 rounded-2xl hover:shadow-lg\
+                <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-pink-200 dark:border-pink-700 rounded-2xl hover:shadow-lg">
+                  {/* Card content here */}
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Filtered Resources */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-200 font-serif flex items-center">
+          <Sparkles className="w-5 h-5 mr-2" />
+          All Sacred Wisdom 📚
+        </h3>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredResources.map((resource, index) => (
+            <motion.div
+              key={resource.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-pink-200 dark:border-pink-700 rounded-2xl hover:shadow-lg">
+                {/* Card content here */}
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}

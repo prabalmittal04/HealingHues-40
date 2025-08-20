@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, BookOpen, BarChart3, Lightbulb, Edit3, Heart, Sparkles, Brain, Zap } from "lucide-react"
+import { Calendar, BookOpen, BarChart3, Lightbulb, Edit3, Heart, Sparkles, Brain } from "lucide-react"
 import { differenceInDays } from "date-fns"
 import { motion } from "framer-motion"
 import {
@@ -24,7 +24,6 @@ import HueCycleDiary from "./HueCycleDiary"
 import HueCycleAnalytics from "./HueCycleAnalytics"
 import HueTips from "./HueTips"
 import HueCycleInsights from "./HueCycleInsights"
-import HueCycleHealthLibrary from "./HueCycleHealthLibrary"
 
 interface HueCycleDashboardProps {
   profile?: HueCycleProfile | null
@@ -535,7 +534,7 @@ export default function HueCycleDashboard({ profile: initialProfile }: HueCycleD
           className="max-w-6xl mx-auto"
         >
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-            <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-pink-200 dark:border-pink-800 rounded-2xl p-2 shadow-lg">
+            <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-pink-200 dark:border-pink-800 rounded-2xl p-2 shadow-lg">
               <TabsTrigger
                 value="sanctuary"
                 className="rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-400 data-[state=active]:to-purple-500 data-[state=active]:text-white text-pink-600 dark:text-pink-300 flex flex-col items-center py-3 font-medium transition-all duration-300"
@@ -585,13 +584,6 @@ export default function HueCycleDashboard({ profile: initialProfile }: HueCycleD
                 <Lightbulb className="w-4 h-4 mb-1" />
                 <span className="text-xs">HueTips</span>
               </TabsTrigger>
-              <TabsTrigger
-                value="library"
-                className="rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-400 data-[state=active]:to-purple-500 data-[state=active]:text-white text-pink-600 dark:text-pink-300 flex flex-col items-center py-3 font-medium transition-all duration-300"
-              >
-                <Zap className="w-4 h-4 mb-1" />
-                <span className="text-xs">Library</span>
-              </TabsTrigger>
             </TabsList>
 
             <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-xl rounded-3xl border border-pink-200 dark:border-pink-800 overflow-hidden shadow-2xl">
@@ -628,10 +620,6 @@ export default function HueCycleDashboard({ profile: initialProfile }: HueCycleD
 
               <TabsContent value="tips" className="p-8">
                 <HueTips profile={profile} entries={entries} currentPhase={currentPhase} />
-              </TabsContent>
-
-              <TabsContent value="library" className="p-8">
-                <HueCycleHealthLibrary />
               </TabsContent>
             </div>
           </Tabs>
