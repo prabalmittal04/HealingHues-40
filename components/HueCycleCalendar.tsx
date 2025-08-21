@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
-import { ChevronLeft, ChevronRight, Save, X, Heart, Sparkles } from "lucide-react"
+import { ChevronLeft, ChevronRight, Save, X } from "lucide-react"
 import { format, isSameDay, isToday, startOfMonth, endOfMonth, eachDayOfInterval, getDay } from "date-fns"
 import { motion, AnimatePresence } from "framer-motion"
 import {
@@ -26,9 +26,9 @@ interface HueCycleCalendarProps {
 
 const PERIOD_COLORS = {
   none: "",
-  light: "bg-red-200 border-red-300 dark:bg-red-900/30 dark:border-red-700",
-  medium: "bg-red-400 border-red-500 dark:bg-red-800/50 dark:border-red-600",
-  heavy: "bg-red-600 border-red-700 dark:bg-red-700/70 dark:border-red-500",
+  light: "bg-red-200 border-red-300",
+  medium: "bg-red-400 border-red-500",
+  heavy: "bg-red-600 border-red-700",
 }
 
 const SYMPTOMS_OPTIONS = [
@@ -55,8 +55,6 @@ const MOOD_OPTIONS = [
   "stressed",
   "confident",
   "emotional",
-  "creative",
-  "peaceful",
 ]
 
 export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: HueCycleCalendarProps) {
@@ -92,13 +90,13 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
     const dayInCycle = (daysSinceLastPeriod % (profile.averageCycleLength || 28)) + 1
 
     if (dayInCycle <= (profile.averagePeriodLength || 5)) {
-      return { phase: "menstrual", color: "bg-red-100 border-red-200 dark:bg-red-900/20 dark:border-red-800" }
+      return { phase: "menstrual", color: "bg-red-100 border-red-200" }
     } else if (dayInCycle <= 13) {
-      return { phase: "follicular", color: "bg-green-100 border-green-200 dark:bg-green-900/20 dark:border-green-800" }
+      return { phase: "follicular", color: "bg-green-100 border-green-200" }
     } else if (dayInCycle <= 16) {
-      return { phase: "ovulation", color: "bg-blue-100 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800" }
+      return { phase: "ovulation", color: "bg-blue-100 border-blue-200" }
     } else {
-      return { phase: "luteal", color: "bg-purple-100 border-purple-200 dark:bg-purple-900/20 dark:border-purple-800" }
+      return { phase: "luteal", color: "bg-amber-100 border-amber-200" }
     }
   }
 
@@ -183,26 +181,26 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-pink-700 dark:text-pink-200 font-serif">Sacred Cycle Tracker 🌙</h2>
-          <p className="text-pink-600 dark:text-pink-300">Beautiful calendar with divine phase insights</p>
+          <h2 className="text-2xl font-bold text-slate-700 dark:text-slate-200 font-serif">Cycle Tracker</h2>
+          <p className="text-slate-600 dark:text-slate-400">Clean, intelligent calendar with phase insights</p>
         </div>
         <div className="flex items-center space-x-4">
           <Button
             variant="outline"
             size="sm"
             onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))}
-            className="bg-white/50 dark:bg-slate-800/50 border-pink-300 dark:border-pink-600 hover:bg-pink-100 dark:hover:bg-pink-900/20 text-pink-700 dark:text-pink-200"
+            className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700"
           >
             <ChevronLeft className="w-4 h-4" />
           </Button>
-          <h3 className="text-xl font-semibold text-pink-700 dark:text-pink-200 min-w-[200px] text-center font-serif">
+          <h3 className="text-xl font-semibold text-slate-700 dark:text-slate-200 min-w-[200px] text-center font-serif">
             {format(currentDate, "MMMM yyyy")}
           </h3>
           <Button
             variant="outline"
             size="sm"
             onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))}
-            className="bg-white/50 dark:bg-slate-800/50 border-pink-300 dark:border-pink-600 hover:bg-pink-100 dark:hover:bg-pink-900/20 text-pink-700 dark:text-pink-200"
+            className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700"
           >
             <ChevronRight className="w-4 h-4" />
           </Button>
@@ -210,12 +208,12 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
       </div>
 
       {/* Calendar Grid */}
-      <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-pink-200 dark:border-pink-700 rounded-2xl shadow-lg">
+      <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-slate-200 dark:border-slate-700 rounded-2xl shadow-lg">
         <CardContent className="p-6">
           {/* Calendar Header */}
           <div className="grid grid-cols-7 gap-2 mb-4">
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-              <div key={day} className="text-center text-pink-600 dark:text-pink-300 font-medium py-2 font-serif">
+              <div key={day} className="text-center text-slate-600 dark:text-slate-400 font-medium py-2 font-serif">
                 {day}
               </div>
             ))}
@@ -247,15 +245,15 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
                     whileTap={{ scale: 0.95 }}
                     className={`
                       relative h-20 rounded-xl cursor-pointer transition-all duration-300 border-2
-                      ${isCurrentDay ? "ring-2 ring-pink-400 ring-offset-2 dark:ring-offset-slate-900" : ""}
+                      ${isCurrentDay ? "ring-2 ring-blue-400 ring-offset-2" : ""}
                       ${hasEntry ? "bg-white/80 dark:bg-slate-700/80 shadow-md" : "bg-white/40 dark:bg-slate-800/40 hover:bg-white/60 dark:hover:bg-slate-700/60"}
-                      ${phase?.color || "border-pink-200 dark:border-pink-600"}
+                      ${phase?.color || "border-slate-200 dark:border-slate-600"}
                       ${PERIOD_COLORS[periodFlow] && periodFlow !== "none" ? PERIOD_COLORS[periodFlow] : ""}
                     `}
                     onClick={() => handleDateClick(date)}
                   >
                     <div className="p-2 h-full flex flex-col">
-                      <div className="text-pink-700 dark:text-pink-200 font-medium text-sm font-serif">
+                      <div className="text-slate-700 dark:text-slate-200 font-medium text-sm font-serif">
                         {format(date, "d")}
                       </div>
 
@@ -285,7 +283,7 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
                                   ? "bg-green-400"
                                   : phase.phase === "ovulation"
                                     ? "bg-blue-400"
-                                    : "bg-purple-400"
+                                    : "bg-amber-400"
                             }`}
                           ></div>
                         </div>
@@ -294,7 +292,7 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
                       {/* Mood indicator */}
                       {entry && entry.mood && entry.mood.length > 0 && (
                         <div className="absolute bottom-1 right-1">
-                          <div className="w-2 h-2 bg-pink-400 rounded-full"></div>
+                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
                         </div>
                       )}
 
@@ -306,7 +304,7 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
                               <div
                                 key={i}
                                 className={`w-1 h-1 rounded-full ${
-                                  i <= entry.energy ? "bg-pink-400" : "bg-slate-300 dark:bg-slate-600"
+                                  i <= entry.energy ? "bg-blue-400" : "bg-slate-300 dark:bg-slate-600"
                                 }`}
                               />
                             ))}
@@ -323,24 +321,24 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
       </Card>
 
       {/* Legend */}
-      <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-pink-200 dark:border-pink-700 rounded-2xl">
+      <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm border-slate-200 dark:border-slate-700 rounded-2xl">
         <CardContent className="p-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 bg-red-600 rounded-full"></div>
-              <span className="text-pink-700 dark:text-pink-200">Heavy flow</span>
+              <span className="text-slate-700 dark:text-slate-200">Heavy flow</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-              <span className="text-pink-700 dark:text-pink-200">Medium flow</span>
+              <span className="text-slate-700 dark:text-slate-200">Medium flow</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 bg-red-300 rounded-full"></div>
-              <span className="text-pink-700 dark:text-pink-200">Light flow</span>
+              <span className="text-slate-700 dark:text-slate-200">Light flow</span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-              <span className="text-pink-700 dark:text-pink-200">Ovulation ✨</span>
+              <span className="text-slate-700 dark:text-slate-200">Ovulation</span>
             </div>
           </div>
         </CardContent>
@@ -348,25 +346,23 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
 
       {/* Entry Dialog */}
       <Dialog open={showEntryDialog} onOpenChange={setShowEntryDialog}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border-pink-200 dark:border-pink-700 rounded-2xl">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border-slate-200 dark:border-slate-700 rounded-2xl">
           <DialogHeader>
-            <DialogTitle className="flex items-center text-pink-700 dark:text-pink-200 font-serif">
-              <Heart className="w-5 h-5 mr-2 text-pink-500" />
-              {editingEntry ? "Edit Sacred Entry" : "Add Sacred Entry"} -{" "}
-              {selectedDate && format(selectedDate, "MMM dd, yyyy")}
+            <DialogTitle className="flex items-center text-slate-700 dark:text-slate-200 font-serif">
+              {editingEntry ? "Edit Entry" : "Add Entry"} - {selectedDate && format(selectedDate, "MMM dd, yyyy")}
             </DialogTitle>
           </DialogHeader>
 
           <div className="space-y-6">
             {/* Period Flow */}
             <div className="space-y-2">
-              <Label className="text-pink-700 dark:text-pink-200 font-medium">Sacred Flow 🌙</Label>
+              <Label className="text-slate-700 dark:text-slate-200 font-medium">Period Flow</Label>
               <div className="grid grid-cols-4 gap-2">
                 {[
-                  { value: "none", label: "None", color: "bg-slate-400", emoji: "🌑" },
-                  { value: "light", label: "Light", color: "bg-red-300", emoji: "🌘" },
-                  { value: "medium", label: "Medium", color: "bg-red-500", emoji: "🌗" },
-                  { value: "heavy", label: "Heavy", color: "bg-red-700", emoji: "🌕" },
+                  { value: "none", label: "None", color: "bg-slate-400" },
+                  { value: "light", label: "Light", color: "bg-red-300" },
+                  { value: "medium", label: "Medium", color: "bg-red-500" },
+                  { value: "heavy", label: "Heavy", color: "bg-red-700" },
                 ].map((option) => (
                   <Button
                     key={option.value}
@@ -376,10 +372,10 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
                     className={`${
                       entryForm.periodFlow === option.value
                         ? `${option.color} text-white hover:${option.color}`
-                        : "bg-white/50 dark:bg-slate-800/50 border-pink-300 dark:border-pink-600 text-pink-700 dark:text-pink-200 hover:bg-pink-100 dark:hover:bg-pink-900/20"
+                        : "bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
                     } transition-all duration-200`}
                   >
-                    <span className="mr-2">{option.emoji}</span>
+                    <div className={`w-3 h-3 rounded-full mr-2 ${option.color}`}></div>
                     {option.label}
                   </Button>
                 ))}
@@ -388,8 +384,8 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
 
             {/* Energy Level */}
             <div className="space-y-3">
-              <Label className="text-pink-700 dark:text-pink-200 font-medium">
-                Energy Flow: {entryForm.energy}/5 ⚡
+              <Label className="text-slate-700 dark:text-slate-200 font-medium">
+                Energy Level: {entryForm.energy}/5
               </Label>
               <Slider
                 value={[entryForm.energy]}
@@ -399,7 +395,7 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
                 step={1}
                 className="w-full"
               />
-              <div className="flex justify-between text-xs text-pink-500 dark:text-pink-400">
+              <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
                 <span>Very Low</span>
                 <span>Low</span>
                 <span>Medium</span>
@@ -410,7 +406,7 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
 
             {/* Sleep Hours */}
             <div className="space-y-2">
-              <Label className="text-pink-700 dark:text-pink-200 font-medium">Sacred Rest: {entryForm.sleep}h 😴</Label>
+              <Label className="text-slate-700 dark:text-slate-200 font-medium">Sleep Hours: {entryForm.sleep}h</Label>
               <Slider
                 value={[entryForm.sleep]}
                 onValueChange={(value) => setEntryForm((prev) => ({ ...prev, sleep: value[0] }))}
@@ -423,7 +419,7 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
 
             {/* Symptoms */}
             <div className="space-y-3">
-              <Label className="text-pink-700 dark:text-pink-200 font-medium">Body Whispers 🌸</Label>
+              <Label className="text-slate-700 dark:text-slate-200 font-medium">Symptoms</Label>
               <div className="grid grid-cols-2 gap-2">
                 {SYMPTOMS_OPTIONS.map((symptom) => (
                   <div key={symptom} className="flex items-center space-x-2">
@@ -431,9 +427,9 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
                       id={symptom}
                       checked={entryForm.symptoms.includes(symptom)}
                       onCheckedChange={() => handleArrayToggle("symptoms", symptom)}
-                      className="border-pink-400 data-[state=checked]:bg-pink-500 data-[state=checked]:border-pink-500"
+                      className="border-slate-400 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500"
                     />
-                    <Label htmlFor={symptom} className="text-sm text-pink-600 dark:text-pink-300">
+                    <Label htmlFor={symptom} className="text-sm text-slate-600 dark:text-slate-300">
                       {symptom.replace("-", " ")}
                     </Label>
                   </div>
@@ -443,7 +439,7 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
 
             {/* Mood */}
             <div className="space-y-3">
-              <Label className="text-pink-700 dark:text-pink-200 font-medium">Heart Feelings 💕</Label>
+              <Label className="text-slate-700 dark:text-slate-200 font-medium">Mood</Label>
               <div className="grid grid-cols-2 gap-2">
                 {MOOD_OPTIONS.map((mood) => (
                   <div key={mood} className="flex items-center space-x-2">
@@ -451,9 +447,9 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
                       id={mood}
                       checked={entryForm.mood.includes(mood)}
                       onCheckedChange={() => handleArrayToggle("mood", mood)}
-                      className="border-pink-400 data-[state=checked]:bg-pink-500 data-[state=checked]:border-pink-500"
+                      className="border-slate-400 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500"
                     />
-                    <Label htmlFor={mood} className="text-sm text-pink-600 dark:text-pink-300">
+                    <Label htmlFor={mood} className="text-sm text-slate-600 dark:text-slate-300">
                       {mood}
                     </Label>
                   </div>
@@ -463,25 +459,25 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
 
             {/* Notes */}
             <div className="space-y-2">
-              <Label htmlFor="notes" className="text-pink-700 dark:text-pink-200 font-medium">
-                Sacred Thoughts ✨
+              <Label htmlFor="notes" className="text-slate-700 dark:text-slate-200 font-medium">
+                Notes
               </Label>
               <Textarea
                 id="notes"
-                placeholder="How is your beautiful soul feeling today? Share your divine thoughts... 💕"
+                placeholder="How are you feeling today? Any thoughts or observations..."
                 value={entryForm.notes}
                 onChange={(e) => setEntryForm((prev) => ({ ...prev, notes: e.target.value }))}
-                className="bg-white/50 dark:bg-slate-800/50 border-pink-300 dark:border-pink-600 text-pink-700 dark:text-pink-200 placeholder:text-pink-500 font-serif"
+                className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 placeholder:text-slate-500 font-serif"
                 rows={3}
               />
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center justify-end space-x-3 pt-4 border-t border-pink-200 dark:border-pink-700">
+            <div className="flex items-center justify-end space-x-3 pt-4 border-t border-slate-200 dark:border-slate-700">
               <Button
                 variant="outline"
                 onClick={() => setShowEntryDialog(false)}
-                className="bg-white/50 dark:bg-slate-800/50 border-pink-300 dark:border-pink-600 text-pink-700 dark:text-pink-200 hover:bg-pink-100 dark:hover:bg-pink-900/20"
+                className="bg-white/50 dark:bg-slate-800/50 border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
               >
                 <X className="w-4 h-4 mr-2" />
                 Cancel
@@ -489,7 +485,7 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
               <Button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white"
+                className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white"
               >
                 {isSubmitting ? (
                   <>
@@ -499,8 +495,7 @@ export default function HueCycleCalendar({ profile, entries, onEntryUpdate }: Hu
                 ) : (
                   <>
                     <Save className="w-4 h-4 mr-2" />
-                    <Sparkles className="w-4 h-4 mr-2" />
-                    {editingEntry ? "Update Sacred Entry" : "Save Sacred Entry"}
+                    {editingEntry ? "Update Entry" : "Save Entry"}
                   </>
                 )}
               </Button>

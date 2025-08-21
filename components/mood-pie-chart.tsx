@@ -4,6 +4,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 import { useState } from "react"
 import { Sector } from "recharts"
 
+
 interface MoodPieChartProps {
   moodCounts?: Record<string, number>
 }
@@ -52,9 +53,6 @@ const getMoodColor = (mood: string): string => {
     Sad: "#6b7280",
     Angry: "#ef4444",
     Anxious: "#fb923c",
-    Excellent: "#f472b6",
-    Good: "#34d399",
-    Excited: "#c4b5fd",
   }
   return colors[mood] || "#9ca3af"
 }
@@ -76,11 +74,10 @@ export function MoodPieChart({ moodCounts }: MoodPieChartProps) {
         })()
       : [
           { name: "Happy", value: 30, color: getMoodColor("Happy") },
-          { name: "Calm", value: 25, color: getMoodColor("Calm") },
-          { name: "Excellent", value: 20, color: getMoodColor("Excellent") },
-          { name: "Good", value: 15, color: getMoodColor("Good") },
-          { name: "Anxious", value: 7, color: getMoodColor("Anxious") },
-          { name: "Sad", value: 3, color: getMoodColor("Sad") },
+          { name: "Calm", value: 40, color: getMoodColor("Calm") },
+          { name: "Neutral", value: 15, color: getMoodColor("Neutral") },
+          { name: "Anxious", value: 10, color: getMoodColor("Anxious") },
+          { name: "Sad", value: 5, color: getMoodColor("Sad") },
         ]
 
   // Handler for mouse enter on slice (for animation)
@@ -92,33 +89,21 @@ export function MoodPieChart({ moodCounts }: MoodPieChartProps) {
   }
 
   return (
-    <div className="h-80 w-full bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 rounded-xl shadow-lg p-4">
+    <div className="h-64 w-full bg-white dark:bg-slate-900 rounded-xl shadow-lg p-4">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius={60}
-            outerRadius={100}
-            paddingAngle={3}
+            innerRadius={50}
+            outerRadius={90}
+            paddingAngle={5}
             dataKey="value"
             activeIndex={activeIndex ?? undefined}
             activeShape={(props: any) => {
               const RADIAN = Math.PI / 180
-              const {
-                cx,
-                cy,
-                midAngle,
-                innerRadius,
-                outerRadius,
-                startAngle,
-                endAngle,
-                fill,
-                payload,
-                percent,
-                value,
-              } = props
+              const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props
               const sin = Math.sin(-RADIAN * midAngle)
               const cos = Math.cos(-RADIAN * midAngle)
               const sx = cx + (outerRadius + 10) * cos
@@ -136,23 +121,14 @@ export function MoodPieChart({ moodCounts }: MoodPieChartProps) {
                     cx={cx}
                     cy={cy}
                     innerRadius={innerRadius}
-                    outerRadius={outerRadius + 15}
+                    outerRadius={outerRadius + 10}
                     startAngle={startAngle}
                     endAngle={endAngle}
                     fill={fill}
-                    style={{
-                      filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15))",
-                    }}
                   />
-                  <path d={`M${sx},${sy}L${mx},${my}`} stroke={fill} fill="none" strokeWidth={2} />
-                  <circle cx={mx} cy={my} r={5} fill={fill} stroke="white" strokeWidth={2} />
-                  <text
-                    x={mx + (cos >= 0 ? 1 : -1) * 12}
-                    y={my}
-                    textAnchor={textAnchor}
-                    fill="#333"
-                    className="font-semibold text-sm"
-                  >
+                  <path d={`M${sx},${sy}L${mx},${my}`} stroke={fill} fill="none" />
+                  <circle cx={mx} cy={my} r={4} fill={fill} stroke="none" />
+                  <text x={mx + (cos >= 0 ? 1 : -1) * 12} y={my} textAnchor={textAnchor} fill="#333" className="font-semibold">
                     {`${value} (${(percent * 100).toFixed(0)}%)`}
                   </text>
                 </g>
@@ -166,10 +142,7 @@ export function MoodPieChart({ moodCounts }: MoodPieChartProps) {
                 key={`cell-${index}`}
                 fill={entry.color}
                 style={{
-                  filter:
-                    index === activeIndex
-                      ? "drop-shadow(0 0 8px rgba(0,0,0,0.3)) brightness(1.1)"
-                      : "drop-shadow(0 2px 4px rgba(0,0,0,0.1))",
+                  filter: index === activeIndex ? "drop-shadow(0 0 5px rgba(0,0,0,0.3))" : "none",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
                 }}
@@ -181,10 +154,9 @@ export function MoodPieChart({ moodCounts }: MoodPieChartProps) {
               if (active && payload && payload.length) {
                 const data = payload[0].payload
                 return (
-                  <div className="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700">
-                    <p className="font-medium text-slate-700 dark:text-slate-200 text-lg">{data.name}</p>
+                  <div className="bg-white dark:bg-slate-800 p-3 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700">
+                    <p className="font-medium text-slate-700 dark:text-slate-200">{data.name}</p>
                     <p className="text-sm text-slate-500 dark:text-slate-400">{data.value} entries</p>
-                    <div className="w-4 h-4 rounded-full mt-2" style={{ backgroundColor: data.color }}></div>
                   </div>
                 )
               }
@@ -196,7 +168,7 @@ export function MoodPieChart({ moodCounts }: MoodPieChartProps) {
             height={36}
             iconType="circle"
             formatter={(value) => (
-              <span className="text-sm text-slate-600 dark:text-slate-400 font-semibold">{value}</span>
+              <span className="text-xs text-slate-600 dark:text-slate-400 font-semibold">{value}</span>
             )}
           />
         </PieChart>

@@ -19,7 +19,6 @@ import {
   Flower2,
   Sparkles,
   Target,
-  Stars,
 } from "lucide-react"
 import { format } from "date-fns"
 import { motion, AnimatePresence } from "framer-motion"
@@ -78,16 +77,14 @@ export default function HueCycleInsights({ insights, onInsightRead }: HueCycleIn
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-pink-700 dark:text-pink-200 font-serif">AI Divine Insights ✨</h2>
-          <p className="text-pink-600 dark:text-pink-300">Personalized wisdom powered by sacred AI magic</p>
+          <h2 className="text-2xl font-bold text-white">AI Insights</h2>
+          <p className="text-pink-100">Personalized insights powered by advanced AI</p>
         </div>
         <div className="flex items-center space-x-3">
-          <Badge className="bg-pink-500/20 text-pink-700 dark:text-pink-200 border-pink-300/30">
-            {unreadCount} new divine insights ✨
-          </Badge>
-          <Button className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white rounded-full">
+          <Badge className="bg-pink-500/20 text-pink-200 border-pink-300/30">{unreadCount} new insights</Badge>
+          <Button className="bg-pink-500 hover:bg-pink-600 text-white">
             <Sparkles className="w-4 h-4 mr-2" />
-            Generate More Magic
+            Generate More
           </Button>
         </div>
       </div>
@@ -102,7 +99,7 @@ export default function HueCycleInsights({ insights, onInsightRead }: HueCycleIn
             onClick={() => setSelectedType(type)}
           >
             <Card
-              className={`bg-white/60 dark:bg-slate-800/60 backdrop-blur-lg border-pink-200 dark:border-pink-700 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-all duration-300 ${
+              className={`bg-white/10 backdrop-blur-lg border-pink-300/30 hover:bg-white/20 transition-all duration-300 ${
                 selectedType === type ? "ring-2 ring-pink-400" : ""
               }`}
             >
@@ -112,10 +109,8 @@ export default function HueCycleInsights({ insights, onInsightRead }: HueCycleIn
                 >
                   <IconComponent className="w-4 h-4 text-white" />
                 </div>
-                <div className="text-xl font-bold text-pink-700 dark:text-pink-200 font-serif">
-                  {insightsByType[type] || 0}
-                </div>
-                <div className="text-xs text-pink-600 dark:text-pink-300 capitalize">{type}</div>
+                <div className="text-xl font-bold text-white">{insightsByType[type] || 0}</div>
+                <div className="text-xs text-pink-200 capitalize">{type}</div>
               </CardContent>
             </Card>
           </motion.div>
@@ -126,18 +121,16 @@ export default function HueCycleInsights({ insights, onInsightRead }: HueCycleIn
       <div className="space-y-4">
         <AnimatePresence>
           {filteredInsights.length === 0 ? (
-            <Card className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-lg border-pink-200 dark:border-pink-700">
+            <Card className="bg-white/10 backdrop-blur-lg border-pink-300/30">
               <CardContent className="text-center py-12">
-                <Brain className="w-16 h-16 text-pink-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-200 mb-2 font-serif">
-                  {selectedType === "all" ? "No divine insights available yet" : `No ${selectedType} insights yet`}
+                <Brain className="w-16 h-16 text-pink-300 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  {selectedType === "all" ? "No insights available" : `No ${selectedType} insights yet`}
                 </h3>
-                <p className="text-pink-600 dark:text-pink-300 mb-4">
-                  Keep tracking your sacred cycle to unlock personalized AI wisdom
-                </p>
-                <Button className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white rounded-full">
+                <p className="text-pink-200 mb-4">Keep tracking your cycle to unlock personalized AI insights</p>
+                <Button className="bg-pink-500 hover:bg-pink-600 text-white">
                   <Target className="w-4 h-4 mr-2" />
-                  Learn More Magic ✨
+                  Learn More
                 </Button>
               </CardContent>
             </Card>
@@ -154,7 +147,7 @@ export default function HueCycleInsights({ insights, onInsightRead }: HueCycleIn
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
                   <Card
-                    className={`bg-white/60 dark:bg-slate-800/60 backdrop-blur-lg border-pink-200 dark:border-pink-700 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-all duration-300 ${
+                    className={`bg-white/10 backdrop-blur-lg border-pink-300/30 hover:bg-white/20 transition-all duration-300 ${
                       !insight.isRead ? "ring-2 ring-pink-400/50" : ""
                     }`}
                   >
@@ -166,19 +159,15 @@ export default function HueCycleInsights({ insights, onInsightRead }: HueCycleIn
                           </div>
                           <div className="flex-1">
                             <div className="flex items-center space-x-2 mb-1">
-                              <CardTitle className="text-lg font-semibold text-pink-700 dark:text-pink-200 font-serif">
-                                {insight.title}
-                              </CardTitle>
+                              <CardTitle className="text-lg font-semibold text-white">{insight.title}</CardTitle>
                               {!insight.isRead && (
-                                <Badge className="text-xs bg-pink-500/20 text-pink-700 dark:text-pink-200 border-pink-300/30">
-                                  ✨ New
-                                </Badge>
+                                <Badge className="text-xs bg-pink-500/20 text-pink-200 border-pink-300/30">New</Badge>
                               )}
                             </div>
-                            <div className="flex items-center space-x-3 text-sm text-pink-600 dark:text-pink-300">
+                            <div className="flex items-center space-x-3 text-sm text-pink-300">
                               <Badge
                                 variant="outline"
-                                className="text-xs capitalize bg-white/50 dark:bg-slate-800/50 border-pink-300/30 text-pink-600 dark:text-pink-300"
+                                className="text-xs capitalize bg-white/10 border-pink-300/30 text-pink-200"
                               >
                                 {insight.type}
                               </Badge>
@@ -194,7 +183,7 @@ export default function HueCycleInsights({ insights, onInsightRead }: HueCycleIn
                             variant="ghost"
                             size="sm"
                             onClick={() => handleMarkAsRead(insight)}
-                            className="text-pink-600 dark:text-pink-300 hover:text-pink-700 dark:hover:text-pink-200 hover:bg-pink-100 dark:hover:bg-pink-900/20"
+                            className="text-pink-300 hover:text-white hover:bg-white/10"
                           >
                             <CheckCircle className="w-4 h-4 mr-2" />
                             Mark as read
@@ -205,29 +194,27 @@ export default function HueCycleInsights({ insights, onInsightRead }: HueCycleIn
 
                     <CardContent className="space-y-4">
                       {/* Description */}
-                      <p className="text-pink-600 dark:text-pink-300">{insight.description}</p>
+                      <p className="text-pink-100">{insight.description}</p>
 
                       {/* Confidence Bar */}
                       <div className="space-y-2">
                         <div className="flex items-center justify-between text-sm">
-                          <span className="text-pink-600 dark:text-pink-300">AI Confidence Level</span>
-                          <span className="font-medium text-pink-700 dark:text-pink-200">{insight.confidence}%</span>
+                          <span className="text-pink-300">Confidence Level</span>
+                          <span className="font-medium text-white">{insight.confidence}%</span>
                         </div>
-                        <Progress value={insight.confidence} className="h-2 bg-pink-100 dark:bg-pink-900" />
+                        <Progress value={insight.confidence} className="h-2 bg-white/20" />
                       </div>
 
                       {/* Data Points */}
                       {insight.dataPoints && insight.dataPoints.length > 0 && (
                         <div className="space-y-2">
-                          <div className="text-sm font-medium text-pink-600 dark:text-pink-300">
-                            Based on sacred data:
-                          </div>
+                          <div className="text-sm font-medium text-pink-200">Based on:</div>
                           <div className="flex flex-wrap gap-2">
                             {insight.dataPoints.map((point, idx) => (
                               <Badge
                                 key={idx}
                                 variant="secondary"
-                                className="text-xs bg-white/50 dark:bg-slate-800/50 text-pink-600 dark:text-pink-300 border-pink-300/30"
+                                className="text-xs bg-white/10 text-pink-200 border-pink-300/30"
                               >
                                 {point}
                               </Badge>
@@ -240,13 +227,11 @@ export default function HueCycleInsights({ insights, onInsightRead }: HueCycleIn
                       <div className="p-4 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-lg border border-pink-300/30">
                         <div className="flex items-start space-x-3">
                           <div className="p-1 bg-pink-400/20 rounded-full">
-                            <Lightbulb className="w-4 h-4 text-pink-600 dark:text-pink-300" />
+                            <Lightbulb className="w-4 h-4 text-pink-300" />
                           </div>
                           <div>
-                            <h4 className="font-medium text-pink-700 dark:text-pink-200 mb-1 font-serif">
-                              Divine AI Recommendation ✨
-                            </h4>
-                            <p className="text-sm text-pink-600 dark:text-pink-300">{insight.recommendation}</p>
+                            <h4 className="font-medium text-pink-200 mb-1">AI Recommendation</h4>
+                            <p className="text-sm text-pink-100">{insight.recommendation}</p>
                           </div>
                         </div>
                       </div>
@@ -261,18 +246,16 @@ export default function HueCycleInsights({ insights, onInsightRead }: HueCycleIn
 
       {/* Generate More Insights */}
       {insights.length > 0 && (
-        <Card className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-lg border-pink-200 dark:border-pink-700">
+        <Card className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-lg border-pink-300/30">
           <CardContent className="text-center py-8">
-            <Stars className="w-12 h-12 text-pink-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-200 mb-2 font-serif">
-              Want more divine insights? ✨
-            </h3>
-            <p className="text-pink-600 dark:text-pink-300 mb-4">
-              Continue tracking your sacred cycle daily to unlock deeper AI-powered wisdom and magical predictions.
+            <Brain className="w-12 h-12 text-pink-300 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-white mb-2">Want more personalized insights?</h3>
+            <p className="text-pink-200 mb-4">
+              Continue tracking your cycle daily to unlock deeper AI-powered insights and predictions.
             </p>
-            <Button className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white rounded-full">
+            <Button className="bg-pink-500 hover:bg-pink-600 text-white">
               <Zap className="w-4 h-4 mr-2" />
-              Upgrade to Premium Magic ✨
+              Upgrade to Premium Insights
             </Button>
           </CardContent>
         </Card>

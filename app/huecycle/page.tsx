@@ -41,19 +41,19 @@ export default function HueCyclePage() {
   if (loading) {
     return (
       <ProtectedRoute requireEmailVerification>
-        <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-rose-50 dark:from-pink-950 dark:via-purple-950 dark:to-rose-950">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950">
           <Navigation />
           <div className="flex items-center justify-center min-h-screen">
             <div className="text-center">
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                className="w-16 h-16 border-4 border-pink-300 border-t-transparent rounded-full mx-auto mb-4"
+                className="w-16 h-16 border-4 border-blue-300 border-t-transparent rounded-full mx-auto mb-4"
               />
-              <h2 className="text-2xl font-bold text-pink-700 dark:text-pink-200 mb-2 font-serif">
-                Loading HueCycle ✨
+              <h2 className="text-2xl font-bold text-slate-700 dark:text-slate-200 mb-2 font-serif">
+                Loading HueCycle
               </h2>
-              <p className="text-pink-600 dark:text-pink-400">Preparing your magical wellness sanctuary...</p>
+              <p className="text-slate-600 dark:text-slate-400">Preparing your wellness sanctuary...</p>
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@ export default function HueCyclePage() {
 
   return (
     <ProtectedRoute requireEmailVerification>
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-rose-50 dark:from-pink-950 dark:via-purple-950 dark:to-rose-950">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950">
         <Navigation />
         <main className="pt-20">
           {showOnboarding ? (
